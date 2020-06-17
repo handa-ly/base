@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="myUserService" class="com.example.demo.aspect.target.UserService"></bean>
+
+    <!-- 定义前置通知 -->
+    <bean id="beforeLogAdvice" class="com.example.demo.aspect.advice.BeforeLogAdvice"></bean>
+    <bean id="beforePointcut" class="com.example.demo.aspect.demo2.MyPointcut"></bean>
+    <bean id="myAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor" p:pointcut-ref="beforePointcut"
+          p:advice-ref="beforeLogAdvice"/>
+
+    <!-- 定义后置通知 -->
+    <bean id="afterLogAdvice" class="com.example.demo.aspect.advice.AfterLogAdvice"></bean>
+    <bean id="regexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"
+          p:advice-ref="afterLogAdvice">
+        <property name="patterns">
+            <list>
+                <value>.*deleteUser</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 定义环绕通知 -->
+    <bean id="logAroundAdvice" class="com.example.demo.aspect.advice.LogAroundAdvice"></bean>
+    <bean id="myAroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor"
+          p:advice-ref="logAroundAdvice">
+        <property name="mappedNames">
+            <list>
+                <value>*User</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 定义异常通知 -->
+    <bean id="throwsLogAdvice" class="com.example.demo.aspect.advice.ThrowsLogAdvice"></bean>
+
+
+    <!-- 定义代理类，名 称为myProxy，将通过myProxy访问业务类中的方法 -->
+    <bean id="myProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces">
+            <value>com.example.demo.aspect.target.IUserService</value>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>myAdvisor</value>
+
+                <value>regexpAdvisor</value>
+
+                <value>myAroundAdvisor</value>
+
+                <value>throwsLogAdvice</value>
+            </list>
+        </property>
+        <property name="target" ref="myUserService"></property>
+    </bean>
+</beans>

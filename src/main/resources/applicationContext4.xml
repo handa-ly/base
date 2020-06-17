@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="myProxy" class="com.example.demo.aspect.target.UserService"></bean>
+
+    <!-- 定义日志通知，将日志切面交给Spring容器管理 -->
+    <bean id="allLogAdvice" class="com.example.demo.aspect.demo4.AllLogAdvice"></bean>
+
+    <!-- 进行aop配置 -->
+    <aop:config>
+        <!-- 配置日志切面 -->
+        <aop:aspect id="logaop" ref="allLogAdvice">
+
+            <aop:pointcut id="logpointcut" expression="execution(* com.example.demo.aspect.target.UserService.*(..))" />
+
+            <!-- 将LogAdvice日志通知中的myBeforeAdvice方法指定为前置通知 -->
+            <aop:before method="myBeforeAdvice" pointcut-ref="logpointcut"/>
+
+            <!-- 将LogAdvice日志通知中的myAfterReturnAdvice方法指定为后置通知 -->
+            <aop:after-returning method="myAfterReturnAdvice" pointcut-ref="logpointcut"/>
+
+            <!-- 将LogAdvice日志通知中的方法指定为异常通知 -->
+            <aop:after-throwing method="myThrowingAdvice" pointcut-ref="logpointcut" throwing="e" />
+
+            <!-- 将LogAdvice日志通知中的方法指定为环绕通知 -->
+            <aop:around method="myAroundAdvice" pointcut-ref="logpointcut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
