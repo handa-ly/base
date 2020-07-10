@@ -20,6 +20,10 @@ public class HelloProxy implements IHello {
     log.debug("sayHello method start.");
     hello.sayHello(name);
     log.debug("sayHello method end!");
+  }
+
+  @Override
+  public void sayGoogBye(String name) {
 
   }
 }
