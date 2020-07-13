@@ -19,7 +19,11 @@ public class DynProxyTes {
     List list = new ArrayList();
     list.add(3);
 //    int hello1 = list.get(0);
-    IHello hello = new HelloInvocationHandler<IHello>().instantProxy(new Hello());
+    IHello hello = new HelloInvocationHandler().instantProxy(new Hello());
     hello.sayHello("hello");
+  }
+  public<T> String test(T s){
+    String ss = (String) s;
+    return ss;
   }
 }

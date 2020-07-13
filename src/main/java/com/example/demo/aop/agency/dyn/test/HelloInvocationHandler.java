@@ -1,5 +1,6 @@
 package com.example.demo.aop.agency.dyn.test;
 
+import com.example.demo.aop.IHello;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -11,7 +12,7 @@ import java.lang.reflect.Proxy;
  * @Date: 2020/7/10 11:17
  */
 
-public class HelloInvocationHandler<T> implements InvocationHandler {
+public class HelloInvocationHandler implements InvocationHandler {
 
     private Object delegate;
 
@@ -22,7 +23,7 @@ public class HelloInvocationHandler<T> implements InvocationHandler {
         return null;
     }
 
-    public T instantProxy(T delegate) {
+    public<T> T instantProxy(T delegate) {
         this.delegate = delegate;
         return (T) Proxy.newProxyInstance(this.delegate.getClass().getClassLoader(),
             this.delegate.getClass().getInterfaces(), this);
