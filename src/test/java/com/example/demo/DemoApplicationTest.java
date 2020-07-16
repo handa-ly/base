@@ -1,15 +1,24 @@
 package com.example.demo;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.aop.aspectJ.TargetObject;
 import com.example.demo.stream.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.servlet.ServletContext;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.ApplicationContextTestUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * @ClassName: DemoApplicationTest
@@ -17,15 +26,18 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @Author: handa
  * @Date: 2020/4/24 16:42
  */
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @EnableAutoConfiguration
+//@EnableAspectJAutoProxy
 public class DemoApplicationTest {
 
   public static void main(String[] args) {
     String ss = "{\"ss\":\"ss\",\"ss\":\"ss\"}";
     System.out.println(JSON.parse(ss).toString());
   }
-
+  @Autowired
+  TargetObject targetObject;
   @Test
   public void collectionToMap() {
     List<Student> list = getStudentList();
@@ -62,5 +74,10 @@ public class DemoApplicationTest {
     sList.add(new Student(2, "wangwu", 7));
     sList.add(new Student(3, "maliu", 9));
     return sList;
+  }
+
+  @Test
+  public void aspectTest(){
+    targetObject.setName("test");
   }
 }
