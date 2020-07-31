@@ -2,11 +2,7 @@ server:
   port: 8080
 logging:
   level:
-    web: info
-    org: info
-    com.example.demo: info
-
-
+    com.example.demo: debug
 mybatis:
   # spring boot集成mybatis的方式打印sql
   configuration:

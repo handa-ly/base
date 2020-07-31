@@ -58,4 +58,15 @@ public class BatchUpdateByPrimaryKeyProvider extends ExampleProvider {
 
         return sql.toString();
     }
+    public String getTableDetail(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        //开始拼sql
+        StringBuilder sql = new StringBuilder();
+        sql.append("select COLUMN_NAME, COLUMN_COMMENT from information_schema.columns where table_schema ='quartz'  and table_name =   ");
+        sql.append(EntityHelper.getEntityTable(entityClass).getName());
+        return sql.toString();
+    }
+    /*public String selectBySQL(MappedStatement ms) {
+        return null;
+    }*/
 }

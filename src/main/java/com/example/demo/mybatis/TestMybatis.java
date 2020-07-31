@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
     *@Author: handa
     *@Date: 2020/5/6 16:47
     */
-//@Component
+@Component
 public class TestMybatis implements CommandLineRunner {
 
   @Override
