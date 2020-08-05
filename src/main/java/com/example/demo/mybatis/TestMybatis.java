@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
     *@Date: 2020/5/6 16:47
     */
 @Component
-public class TestMybatis implements CommandLineRunner {
+public class TestMybatis /*implements CommandLineRunner*/ {
 
-  @Override
+  /*@Override*/
   public void run(String... args) throws Exception {
     //1.获取配置数据文件路径
     String resource = "mybatis.xml";

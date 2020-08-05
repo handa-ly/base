@@ -42,6 +42,6 @@ public class HelloJob implements Job {
     quartzJobLog.setPort(String.valueOf(this.serverPort));
     quartzJobLog.init();
     quartzJobLogMapper.insert(quartzJobLog);
-    System.out.println("=============="+quartzJobLog.toString()+"======================");
+    System.out.println("==============热部署"+quartzJobLog.toString()+"======================");
   }
 }

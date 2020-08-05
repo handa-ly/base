@@ -9,6 +9,7 @@ import com.example.demo.mybatis.dync.SqlColumn;
 import com.example.demo.mybatis.dync.SqlHelper;
 import com.example.demo.mybatis.dync.SqlTable;
 import com.example.demo.mybatis.dync.SqlWhere;
+import com.example.demo.mybatis.dync.annotaion.DynaListenerProcessor;
 import com.example.demo.pojo.quartz.QuartzJobLog;
 import com.example.demo.spring.CustomBeanFactoryPostProcessor;
 import com.example.demo.stream.Student;
@@ -55,10 +56,10 @@ public class DemoApplicationTest {
   private CustomBeanFactoryPostProcessor customBeanFactoryPostProcessor;
 
   @Autowired
-  private BaseMapper baseMapper;
+  private SqlSessionFactory sqlSessionFactory;
 
   @Autowired
-  private SqlSessionFactory sqlSessionFactory;
+  private BaseMapper baseMapper;
   @Test
   public void collectionToMap() {
     List<Student> list = getStudentList();
@@ -127,7 +128,7 @@ public class DemoApplicationTest {
         }
       });
     }
-//    BaseMapper baseMapper = (BaseMapper) CustomBeanFactoryPostProcessor.getBean(CamelAndUnderLineConverterUtil.lowerFirst(clazz.getSimpleName()).concat("Mapper"));
+    BaseMapper baseMapper = CustomBeanFactoryPostProcessor.getBean(CamelAndUnderLineConverterUtil.lowerFirst(clazz.getSimpleName()).concat("Mapper"));
     List<Object> quartzJobLogList = baseMapper.selectByExample(example);
     baseMapper.getClass().getInterfaces()[0].getSimpleName();
     MappedStatement mappedStatement = sqlSessionFactory.getConfiguration().
@@ -160,6 +161,7 @@ public class DemoApplicationTest {
   public void classColumnTest() throws ClassNotFoundException {
     Class clazz = Class.forName("com.example.demo.pojo.quartz.QuartzJobLog");
     Set<EntityColumn> columnSet = EntityHelper.getColumns(clazz);
+    BaseMapper baseMapper = CustomBeanFactoryPostProcessor.getBean(CamelAndUnderLineConverterUtil.lowerFirst(clazz.getSimpleName()).concat("Mapper"));
     Map<String,Object> map = baseMapper.getTableDetail();
     System.out.println(toString(map));
   }
@@ -167,7 +169,7 @@ public class DemoApplicationTest {
 
   @Test
   public void exeSqlTest() {
-    Map<String,Object> map = baseMapper.selectBySQL("select * from sys_user");
+    Map<String,Object> map = baseMapper.selectBySQL("select * from quartz_job_log");
     System.out.println(toString(map));
   }
   public String toString(Object object) {
@@ -175,5 +177,11 @@ public class DemoApplicationTest {
             SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty,
             SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.WriteNullNumberAsZero,
             SerializerFeature.WriteNullBooleanAsFalse, SerializerFeature.UseISO8601DateFormat);
+  }
+
+  @Test
+  public void dynaEntityTest() {
+    Set<String> classNameSet =  DynaListenerProcessor.classNameSet;
+    classNameSet.forEach(className-> System.out.println(className));
   }
 }

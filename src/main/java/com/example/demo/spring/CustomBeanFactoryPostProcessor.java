@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 获取spring beanFactory
  */
 @Component
-public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+public class CustomBeanFactoryPostProcessor<T> implements BeanFactoryPostProcessor {
 
     private static ConfigurableListableBeanFactory beanFactory;
 
@@ -18,8 +18,8 @@ public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
         beanFactory = configurableListableBeanFactory;
     }
 
-    public static Object getBean(String name) {
-        return beanFactory.getBean(name);
+    public static <T> T getBean(String name) {
+        return (T) beanFactory.getBean(name);
     }
 
     public static <T> T getBean(Class<T> clazz){
