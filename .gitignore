@@ -33,3 +33,7 @@ build/
 /src/main/resources/rebel.xml
 /src/main/resources/rebel-remote.xml
 /src/main/java/tw/org/must/must/web/controller/test/TestController.java
+/src/main/resources/applicationContext1.xml
+/src/main/resources/applicationContext2.xml
+/src/main/resources/applicationContext3.xml
+/src/main/resources/applicationContext4.xml
