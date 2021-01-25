@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,20 +115,16 @@ public class Test {
         }
     }
 
+    private static final String START_SPACES_REGEX = "^\\s+";
+    public static final String EMPTY_STRING = "";
     public static void main(String[] args) throws CloneNotSupportedException {
-        Test test = new Test();
-        Date startDate = new Date();
-        for (int i = 1;i<10000000;i++){
-            CloneTest cloneTest = test.new CloneTest();
-        }
-        System.out.println(System.currentTimeMillis() - startDate.getTime());
-        Date startDate1 = new Date();
-        CloneTest cloneTest1 = test.new CloneTest();
-        for (int i = 1;i<10000000;i++){
-            CloneTest cloneTest = (CloneTest) cloneTest1.clone();
-        }
-        System.out.println(System.currentTimeMillis() - startDate1.getTime());
+
+String sss = "\uFEFFHDRSO000000052Performing Right Society                     01.102016062012420320160620";
+        System.out.println(sss.substring(1));
 
 
+    }
+    public static String trimStart(String value) {
+        return value.replaceFirst(START_SPACES_REGEX, EMPTY_STRING);
     }
 }

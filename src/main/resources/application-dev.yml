@@ -17,6 +17,7 @@ server:
 logging:
   level:
     com.example.demo: debug
+    org.elasticsearch.client: DEBUG
 
 
 mybatis:
@@ -69,3 +70,10 @@ spring:
             threadCount: 20
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
+
+elasticSearch:
+  host: localhost
+  port: 9200
+  client:
+    connectNum: 10
+    connectPerRoute: 50

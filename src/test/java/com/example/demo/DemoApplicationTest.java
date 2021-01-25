@@ -1,13 +1,27 @@
 package com.example.demo;
 
 import com.example.demo.stream.Student;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -23,9 +37,82 @@ import org.springframework.test.context.junit4.SpringRunner;
     *@Date: 2020/4/24 16:42
     */
 @RunWith(SpringRunner.class)
-//@SpringBootTest
-//@EnableAutoConfiguration
+@SpringBootTest
+@EnableAutoConfiguration
 public class DemoApplicationTest {
+
+  @Autowired
+  private RestHighLevelClient restHighLevelClient;
+
+  @Test
+  public void elasticSearchTest() throws IOException {
+    //参数为索引名，可以不指定，可以一个，可以多个
+    DeleteByQueryRequest request = new DeleteByQueryRequest("megacorp");
+    // 更新时版本冲突
+    request.setConflicts("proceed");
+    // 设置查询条件，第一个参数是字段名，第二个参数是字段的值
+    BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
+    MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("first_name", "John");
+    boolBuilder.must(matchQueryBuilder);
+    request.setQuery(boolBuilder);
+    // 更新最大文档数
+    request.setSize(10);
+    // 批次大小
+    request.setBatchSize(1000);
+    // 并行
+    request.setSlices(2);
+    // 使用滚动参数来控制“搜索上下文”存活的时间
+    request.setScroll(TimeValue.timeValueMinutes(10));
+    // 超时
+    request.setTimeout(TimeValue.timeValueMinutes(2));
+    // 刷新索引
+    request.setRefresh(true);
+    try {
+      BulkByScrollResponse response = restHighLevelClient.deleteByQuery(request, RequestOptions.DEFAULT);
+      System.out.println(response.getStatus().getUpdated());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }finally {
+      try {
+        restHighLevelClient.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+ /* @Test
+  public void test3() {
+    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+    sourceBuilder.from(0);
+    sourceBuilder.size(10);
+    sourceBuilder.fetchSource(new String[]{"*"}, Strings.EMPTY_ARRAY);
+
+    MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", "rabbit");
+    MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery("YunZhiHui", "address", "company");
+    TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("interest", "game steak");
+    RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("birthday");
+    rangeQueryBuilder.gte("2018-01-26");
+    rangeQueryBuilder.lte("2019-01-26");
+
+    BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
+    boolBuilder.must(matchQueryBuilder);
+    boolBuilder.must(termQueryBuilder);
+    boolBuilder.must(rangeQueryBuilder);
+    boolBuilder.should(multiMatchQueryBuilder);
+
+    sourceBuilder.query(boolBuilder);
+    SearchRequest searchRequest = new SearchRequest(index);
+    searchRequest.types(type);
+    searchRequest.source(sourceBuilder);
+    try {
+      SearchResponse response = client.search(searchRequest);
+      System.out.println(response);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }*/
 
   @Test
   public void collectionToMap(){
