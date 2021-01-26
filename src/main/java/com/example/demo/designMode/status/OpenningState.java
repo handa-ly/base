@@ -29,6 +29,7 @@ public class OpenningState extends LiftState {
     }
 
     //开门还不停止？
+    @Override
     public void stop() {
 //do nothing;
     }
