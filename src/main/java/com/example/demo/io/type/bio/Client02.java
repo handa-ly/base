@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Client02 {
     public static void main(String[] args) throws IOException {
         //创建套接字对象socket并封装ip与port
-        Socket socket = new Socket("127.0.0.1", 8000);
+        Socket socket = new Socket("127.0.0.1", 5555);
         //根据创建的socket对象获得一个输出流
         //基于字节流
         OutputStream outputStream = socket.getOutputStream();

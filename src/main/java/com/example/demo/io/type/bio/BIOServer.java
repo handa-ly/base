@@ -33,6 +33,10 @@ public class BIOServer {
                 //读取客户端的数据
                 while ((len = in.read(buffer)) > 0) {
                     System.out.println(new String(buffer, 0, len));
+                    if (socket.isClosed()){
+                        System.out.println("连接结束！");
+                        break;
+                    }
                 }
                 //向客户端写数据
                 out = socket.getOutputStream();
