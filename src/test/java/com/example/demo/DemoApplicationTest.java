@@ -1,14 +1,20 @@
 package com.example.demo;
 
+import com.example.demo.mapper.quartz.QuartzJobLogMapper;
+import com.example.demo.pojo.quartz.QuartzJobLog;
 import com.example.demo.stream.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.example.demo.utils.SqlHelper;
+import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
+import org.apache.ibatis.cursor.Cursor;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -43,6 +49,12 @@ public class DemoApplicationTest {
 
   @Autowired
   private RestHighLevelClient restHighLevelClient;
+
+  @Autowired
+  private QuartzJobLogMapper quartzJobLogMapper;
+
+  @Autowired
+  private SqlHelper sqlHelper;
 
   @Test
   public void elasticSearchTest() throws IOException {
@@ -79,6 +91,36 @@ public class DemoApplicationTest {
         e.printStackTrace();
       }
     }
+  }
+
+  @Test
+  public void sqlTest1(){
+    Map<String,Object> params = new HashMap<>();
+    params.put("host","172.18.0.3");
+    params.put("port",8080);
+    quartzJobLogMapper.getList(params);
+    String sql = null;
+    try {
+      sql = sqlHelper.getNamespaceSql(quartzJobLogMapper.getClass().getMethod("getList", Map.class).getName(),params);
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+    System.out.println(sql);
+  }
+
+  @Test
+  public void sqlTest() throws NoSuchMethodException {
+    Map<String,Object> params = new HashMap<>();
+    params.put("host","172.18.0.3");
+    params.put("port",8080);
+    String sql = "select * from quartz_job_log where host =  '${host}' and port = '${port}'";
+    Cursor<QuartzJobLog> quartzJobLogs =  quartzJobLogMapper.getComplexList(sql,params);
+    quartzJobLogs.forEach(quartzJobLog -> {
+      System.out.println(quartzJobLog.toString());
+    });
+    String resultSql = sqlHelper.getMapperSql(quartzJobLogMapper,"getComplexList",sql,params);
+    System.out.println(resultSql);
+
   }
 
  /* @Test
