@@ -25,8 +25,8 @@ public class TestMybatis implements CommandLineRunner {
     //加载到流中
     InputStream inputStream = Resources.getResourceAsStream(resource);
     //3.根据builder构建sqlsessionfactory
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     //4.获取session回话
+    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     SqlSession session = sqlSessionFactory.openSession();
     try {
             /*UserMapper mapper = session.getMapper(UserMapper.class);
