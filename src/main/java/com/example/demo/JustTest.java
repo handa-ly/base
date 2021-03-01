@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mozilla.intl.chardet.*;
 
 import java.io.*;
@@ -22,7 +23,11 @@ import java.util.Map;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-        test(new String[]{"C:/Users/handa_ly/Desktop/getTest.txt"});
+//        test(new String[]{"C:/Users/handa_ly/Desktop/getTest.txt"});
+//        test(new String[]{"C:/Users/handa_ly/Desktop/顯示為0 KOMCA1- (1).020"});
+//        test(new String[]{"http://180.166.161.210:18075/#/payment-detail?autopayNo=ab12343&payType=SOC"});
+//        System.out.println(String.format("%011d","1"));
+        System.out.println(StringUtils.contains(null,null));
     }
     static char getChar(byte[] b, int off) {
         return (char) ((b[off + 1] & 0xFF) +
@@ -64,8 +69,9 @@ public class JustTest {
                 HtmlCharsetDetector.found = true;
                 System.out.println("CHARSET = " + var11);
             });
-            URL var3 = new URL(var0[0]);
-            BufferedInputStream var4 = new BufferedInputStream(var3.openStream());
+//            URL var3 = new URL(var0[0]);
+            FileInputStream fileInputStream = new FileInputStream(var0[0]);
+            BufferedInputStream var4 = new BufferedInputStream(fileInputStream);
             byte[] var5 = new byte[1024];
             boolean var7 = false;
             boolean var8 = true;
