@@ -1,18 +1,14 @@
 package com.example.demo;
 
-import org.apache.commons.lang3.StringUtils;
-import org.mozilla.intl.chardet.*;
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
+import org.mozilla.intl.chardet.HtmlCharsetDetector;
+import org.mozilla.intl.chardet.nsDetector;
+import org.mozilla.intl.chardet.nsUTF8Verifier;
 
+import java.awt.*;
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 
 /**
  * @Author: hanDa
@@ -23,11 +19,13 @@ import java.util.Map;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-//        test(new String[]{"C:/Users/handa_ly/Desktop/getTest.txt"});
-//        test(new String[]{"C:/Users/handa_ly/Desktop/顯示為0 KOMCA1- (1).020"});
-//        test(new String[]{"http://180.166.161.210:18075/#/payment-detail?autopayNo=ab12343&payType=SOC"});
-//        System.out.println(String.format("%011d","1"));
-        System.out.println(StringUtils.contains(null,null));
+        /*getWhiteList("C:\\Users\\handa_ly\\Desktop\\顯示為0 KOMCA1- (1).020");
+        getWhiteList("C:\\Users\\handa_ly\\Desktop\\音集协11月歌单.csv");
+        getWhiteList("C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021");*/
+
+//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 KOMCA1- (1).020"});
+//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\音集协11月歌单.csv"});
+                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021"});
     }
     static char getChar(byte[] b, int off) {
         return (char) ((b[off + 1] & 0xFF) +
@@ -109,6 +107,48 @@ public class JustTest {
 //        n.charset()
     }
 
+    // 使用之前请调用getAllDetectableCharsets()检查是否满足要求，中文仅有{gb18030, big5,utf-*}import com.ibm.icu.text.CharsetDetector;
+//import com.ibm.icu.text.CharsetMatch;
 
-
+    static HashSet<String> getWhiteList(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+        HashSet<String> rs = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileName);
+            BufferedInputStream bis = new BufferedInputStream(fis);// markSupported
+            CharsetMatch charsetMatch = new CharsetDetector().setText(bis).detect();
+            if (charsetMatch != null) {
+                isr = new InputStreamReader(bis, charsetMatch.getName());
+                System.out.println("Open '" + fileName + " ' with charset: " + charsetMatch.getName());
+            } else {
+                isr = new InputStreamReader(bis);
+                System.out.println(
+                        "Open '" + fileName + " ' with charset( default, because no charset is detected by IBM.ICU4J): "
+                                + isr.getEncoding());
+            }
+            br = new BufferedReader(isr);
+            String line = null;
+            rs = new HashSet<String>();
+            while ((line = br.readLine()) != null) {
+                rs.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("WARNING: File '" + fileName + "' is not exist.");
+        } catch (IOException e) {
+            System.out.println("WARNING: IOException occured when read Whitelist.");
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                System.out.println("WARNING: IOException occured when close BufferedReader.");
+            }
+        }
+        return rs;
+    }
 }
