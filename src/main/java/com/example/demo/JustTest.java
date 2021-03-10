@@ -25,7 +25,10 @@ public class JustTest {
 
 //                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 KOMCA1- (1).020"});
 //                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\音集协11月歌单.csv"});
-                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021"});
+//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021"});
+        String ss = null;
+        String sss = null;
+        System.out.println(ss.concat(sss));
     }
     static char getChar(byte[] b, int off) {
         return (char) ((b[off + 1] & 0xFF) +
