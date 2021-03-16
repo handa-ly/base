@@ -3,10 +3,8 @@ package com.example.demo;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: hanDa
@@ -24,6 +22,9 @@ public class Test {
             this.name = name;
             this.age = age;
             this.height = height;
+        }
+
+        public Stu() {
         }
 
         public String getName() {
@@ -117,14 +118,14 @@ public class Test {
 
     private static final String START_SPACES_REGEX = "^\\s+";
     public static final String EMPTY_STRING = "";
-    public static void main(String[] args) throws CloneNotSupportedException {
-
-String sss = "\uFEFFHDRSO000000052Performing Right Society                     01.102016062012420320160620";
-        System.out.println(sss.substring(1));
-
-
-    }
     public static String trimStart(String value) {
         return value.replaceFirst(START_SPACES_REGEX, EMPTY_STRING);
     }
+    public static void main(String[] args) throws CloneNotSupportedException {
+
+/*String sss = "\uFEFFHDRSO000000052Performing Right Society                     01.102016062012420320160620";
+        System.out.println(sss.substring(1));*/
+        System.out.println(0x100000);
+    }
+
 }

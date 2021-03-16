@@ -21,6 +21,14 @@ public class QuartzJobLog extends BaseEntity {
     @Column(name = "`port`")
     private String port;
 
+    public QuartzJobLog(String host, String port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    public QuartzJobLog() {
+    }
+
     @Override
     public String toString() {
         return "QuartzJobLog{" +
