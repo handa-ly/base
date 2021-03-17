@@ -1,17 +1,17 @@
 package com.example.demo;
 
+import com.example.demo.pojo.quartz.QuartzJobLog;
+import com.example.demo.utils.LocalCommonMethodUtils;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 import org.mozilla.intl.chardet.HtmlCharsetDetector;
 import org.mozilla.intl.chardet.nsDetector;
-import org.mozilla.intl.chardet.nsUTF8Verifier;
 
-import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: hanDa
@@ -22,42 +22,39 @@ import java.util.HashSet;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-//        System.out.println(getWhiteList("C:\\Users\\handa_ly\\Desktop\\new 4.log"));
-        System.out.println(getWhiteList("C:\\Users\\handa_ly\\Desktop\\音集协11月歌单.csv").name());
-//        getWhiteList("C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021");
+        System.out.println(getWhiteList("C:\\Users\\handa_ly\\Desktop\\test——test.xlsx").name());
+    }
 
-//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 KOMCA1- (1).020"});
-//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\音集协11月歌单.csv"});
-//                test(new String[]{"C:\\Users\\handa_ly\\Desktop\\顯示為0 BUMA1- (3).021"});
-      /*  String ss = null;
-        String sss = null;
-        System.out.println(ss.concat(sss));*/
-    }
-    static char getChar(byte[] b, int off) {
-        return (char) ((b[off + 1] & 0xFF) +
-                (b[off] << 8));
-    }
-   /* static void checkFileCharSetTest(){
-        String filePath = "C:\\Users\\handa_ly\\Desktop\\getTest.txt";
-        String fileEncode=EncodingDetect.getJavaEncode(filePath);
-        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-                     byte[] b = new byte[100];
-                     while (fileInputStream.read(b) > -1){
-                         String s = new String(b);
-                         System.out.println(s);
-                         System.out.println("==============");
-                     }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    /***
+    * @Description:  测试 LocalCommonMethodUtils.distinctByKey 方法  以确定stream新特性
+    * @Param: []
+    * @return: java.util.List<com.example.demo.pojo.quartz.QuartzJobLog>
+    * @Author: hanDa
+    * @Date: 2021/3/16 14:40
+    */
+    public static List<QuartzJobLog> testDistinctByKey(){
+        List<QuartzJobLog> quartzJobLogList = new ArrayList<>();
+        for (int i =0;i<3;i++){
+            QuartzJobLog quartzJobLog = new QuartzJobLog();
+            quartzJobLog.setHost("2222");
+            quartzJobLog.setPort("99999");
+            quartzJobLogList.add(quartzJobLog);
         }
-    }*/
+        return quartzJobLogList.stream().filter(LocalCommonMethodUtils.distinctByKey((QuartzJobLog::getHost))).collect(Collectors.toList());
+    }
 
+
+    /***
+    * @Description:  校验文件编码
+    * @Param: [var0]
+    * @return: void
+    * @Author: hanDa
+    * @Date: 2021/3/16 14:33
+    */
     public static void test(String[] var0) throws Exception {
         if (var0.length != 1 && var0.length != 2) {
             System.out.println("Usage: HtmlCharsetDetector <url> [<languageHint>]");
-            System.out.println("");
+            System.out.println();
             System.out.println("Where <url> is http://...");
             System.out.println("For optional <languageHint>. Use following...");
             System.out.println("\t\t1 => Japanese");
@@ -100,23 +97,28 @@ public class JustTest {
             if (!found) {
                 String[] var9 = var2.getProbableCharsets();
 
-                for(int var10 = 0; var10 < var9.length; ++var10) {
-                    System.out.println("Probable Charset = " + var9[var10]);
+                for (String s : var9) {
+                    System.out.println("Probable Charset = " + s);
                 }
             }
 
         }
     }
 
-    private void test1(){
-        nsUTF8Verifier n = new nsUTF8Verifier();
-//        n.charset()
+    /**
+    * @Description:         1.使用之前请调用getAllDetectableCharsets()检查是否满足要求，中文仅有{gb18030, big5,utf-*}import com.ibm.icu.text.CharsetDetector;
+     *                      import com.ibm.icu.text.CharsetMatch;
+    *                       2.测试编码
+     * @Param: [fileName]
+    * @return: java.nio.charset.Charset
+    * @Author: hanDa
+    * @Date: 2021/3/16 14:42
+    */
+    static Charset getWhiteList(String fileName) {
+        return getCharset(fileName);
     }
 
-    // 使用之前请调用getAllDetectableCharsets()检查是否满足要求，中文仅有{gb18030, big5,utf-*}import com.ibm.icu.text.CharsetDetector;
-//import com.ibm.icu.text.CharsetMatch;
-
-    static Charset getWhiteList(String fileName) {
+    public static Charset getCharset(String fileName) {
         if (fileName == null) {
             return null;
         }
