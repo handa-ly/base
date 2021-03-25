@@ -1,7 +1,12 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.demo.pojo.quartz.QuartzJobLog;
 import com.example.demo.utils.LocalCommonMethodUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 import org.mozilla.intl.chardet.HtmlCharsetDetector;
@@ -10,7 +15,9 @@ import org.mozilla.intl.chardet.nsDetector;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +29,8 @@ import java.util.stream.Collectors;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-        System.out.println(getWhiteList("C:\\Users\\handa_ly\\Desktop\\test——test.xlsx").name());
+        System.out.println(File.separator);
+
     }
 
     /***
