@@ -35,6 +35,7 @@ public class MyBatisConfig {
     //驼峰命名法映射
     org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
     configuration.setMapUnderscoreToCamelCase(true);
+    configuration.setCallSettersOnNulls(true);
     sqlSessionFactoryBean.setConfiguration(configuration);
     return sqlSessionFactoryBean.getObject();
   }

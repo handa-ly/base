@@ -9,15 +9,14 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
+import org.apache.commons.lang3.StringUtils;
 import org.mozilla.intl.chardet.HtmlCharsetDetector;
 import org.mozilla.intl.chardet.nsDetector;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +28,12 @@ import java.util.stream.Collectors;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-        System.out.println(File.separator);
+        BigDecimal n = new BigDecimal("12.345");
+        BigDecimal m = new BigDecimal("0.12");
+        System.out.println(12.345/0.12);
+        BigDecimal[] dr = n.divideAndRemainder(m);
+        System.out.println((12.345-0.105)/0.12); // 102
+        System.out.println(dr[1]); // 0.105
 
     }
 

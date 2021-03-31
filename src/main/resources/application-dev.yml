@@ -25,6 +25,7 @@ mybatis:
   configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,7 +38,7 @@ spring:
       request-timeout: 2000
 
   quartz:
-    #auto-startup: false
+    auto-startup: false
     job-store-type: jdbc
     jdbc:
       initialize-schema: never
