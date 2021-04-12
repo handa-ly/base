@@ -14,8 +14,8 @@ import java.util.function.Supplier;
 public class ComplateFutureTest {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         //runAsyncTest();
-//        compareGetAndJoin();
-        CompletableFuture<Supplier<Integer>> completableFuture = new CompletableFuture();
+        compareGetAndJoin();
+//        CompletableFuture<Supplier<Integer>> completableFuture = new CompletableFuture();
         /*completableFuture.complete(() -> {
             try {
                 Thread.sleep(100);
@@ -25,8 +25,6 @@ public class ComplateFutureTest {
             }
             return null;
         });*/
-        System.out.println("===========");
-        System.out.println(completableFuture.get());
     }
 
     private static void compareGetAndJoin() throws InterruptedException {

@@ -7,6 +7,7 @@ package com.example.demo.thread;/**
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @description:
@@ -19,5 +20,8 @@ public class ThreadTest {
         ss.stream().forEach(sss->{
             System.out.println(sss);
         });
+    }
+    static final class MinimalStage<T> extends CompletableFuture<T> {
+
     }
 }

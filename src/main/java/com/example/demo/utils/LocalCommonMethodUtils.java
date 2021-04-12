@@ -216,7 +216,32 @@ public class LocalCommonMethodUtils {
     * @Date: 2021/3/12 16:09
     */
     public static Charset getCharset(String fileName) {
-        return getCharset(fileName);
+        if (fileName == null) {
+            return null;
+        }
+
+        InputStreamReader isr;
+        try (FileInputStream fis = new FileInputStream(fileName)) {
+            // markSupported
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            CharsetMatch charsetMatch = new CharsetDetector().setText(bis).detect();
+            if (charsetMatch != null) {
+                System.out.println("Open '" + fileName + " ' with charset: " + charsetMatch.getName());
+                return Charset.forName(charsetMatch.getName());
+            } else {
+                isr = new InputStreamReader(bis);
+                System.out.println(
+                        "Open '" + fileName + " ' with charset( default, because no charset is detected by IBM.ICU4J): "
+                                + isr.getEncoding());
+                return Charset.forName(isr.getEncoding());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("WARNING: File '" + fileName + "' is not exist.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("WARNING: IOException occured when read Whitelist.");
+        }
+        return null;
     }
 
     public static String isDate(String date)
