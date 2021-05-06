@@ -1,5 +1,6 @@
 server:
   port: 8080
+  connection-timeout: 1000
   tomcat:
     # 最大线程数
     max-threads: 6
@@ -9,8 +10,7 @@ server:
     accept-count: 2
     # 最大链接数
     max-connections: 1000
-    #链接建立超时时间
-  connection-timeout: 1000
+  #链接建立超时时间
 #    keep-alive-timeout: 300000
 #    max-keep-alive-requests: 1000
 

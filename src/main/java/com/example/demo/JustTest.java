@@ -1,22 +1,15 @@
 package com.example.demo;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.example.demo.pojo.quartz.QuartzJobLog;
 import com.example.demo.utils.LocalCommonMethodUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
-import org.apache.commons.lang3.StringUtils;
-import org.mozilla.intl.chardet.HtmlCharsetDetector;
-import org.mozilla.intl.chardet.nsDetector;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -28,12 +21,7 @@ import java.util.stream.Collectors;
 public class JustTest {
     public static boolean found = false;
     public static void main(String[] args) throws Exception {
-        BigDecimal n = new BigDecimal("12.345");
-        BigDecimal m = new BigDecimal("0.12");
-        System.out.println(12.345/0.12);
-        BigDecimal[] dr = n.divideAndRemainder(m);
-        System.out.println((12.345-0.105)/0.12); // 102
-        System.out.println(dr[1]); // 0.105
+        System.out.println(0.2f);
 
     }
 
@@ -63,7 +51,7 @@ public class JustTest {
     * @Author: hanDa
     * @Date: 2021/3/16 14:33
     */
-    public static void test(String[] var0) throws Exception {
+    /*public static void test(String[] var0) throws Exception {
         if (var0.length != 1 && var0.length != 2) {
             System.out.println("Usage: HtmlCharsetDetector <url> [<languageHint>]");
             System.out.println();
@@ -115,7 +103,7 @@ public class JustTest {
             }
 
         }
-    }
+    }*/
 
     /**
     * @Description:         1.使用之前请调用getAllDetectableCharsets()检查是否满足要求，中文仅有{gb18030, big5,utf-*}import com.ibm.icu.text.CharsetDetector;
