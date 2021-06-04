@@ -6,11 +6,11 @@ import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @Author: hanDa
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
  */
 public class JustTest {
     public static boolean found = false;
-    public static void main(String[] args) throws Exception {
+    /*public static void main(String[] args) throws Exception {
         System.out.println(0.2f);
 
-    }
+    }*/
 
     /***
     * @Description:  测试 LocalCommonMethodUtils.distinctByKey 方法  以确定stream新特性
@@ -145,5 +145,25 @@ public class JustTest {
             System.out.println("WARNING: IOException occured when read Whitelist.");
         }
         return null;
+    }
+    public static void test(String ss){
+
+    }
+    public static void test(){
+
+    }
+    public static Integer test(HashMap s){
+         return 0;
+    }
+    public static Integer test(Map s){
+         return 0;
+    }
+
+
+    public static void main(String[] args) {
+        List<String> givenList = Arrays.asList("a", "bb", "ccc", "dd");
+        List<String> gi = givenList.stream().collect(Collectors.toUnmodifiableList());
+        assertThatThrownBy(() -> gi.add("foo"))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
