@@ -37,3 +37,4 @@ build/
 /src/main/resources/applicationContext2.xml
 /src/main/resources/applicationContext3.xml
 /src/main/resources/applicationContext4.xml
+/.gradle/
